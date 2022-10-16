@@ -7,9 +7,11 @@ import { Routes } from "@blitzjs/next"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
 import Link from "next/link"
+import { useRedirectAuthenticated } from "@blitzjs/auth"
 
 const ResetPasswordPage = () => {
   const router = useRouter()
+  useRedirectAuthenticated("/apps")
   const [resetPasswordMutation, { isSuccess }] = useMutation(resetPassword)
   return (
     <div>

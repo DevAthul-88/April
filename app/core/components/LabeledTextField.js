@@ -1,5 +1,7 @@
+import { Input, FormLabel, Text } from "@chakra-ui/react"
 import { forwardRef } from "react"
 import { useField } from "react-final-form"
+
 export const LabeledTextField = forwardRef(
   ({ name, label, outerProps, fieldProps, labelProps, ...props }, ref) => {
     const {
@@ -15,20 +17,13 @@ export const LabeledTextField = forwardRef(
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
     return (
       <div {...outerProps}>
-        <label {...labelProps}>
-          {label}
-          <input {...input} disabled={submitting} {...props} ref={ref} />
-        </label>
+        <FormLabel {...labelProps}>{label}</FormLabel>
+        <Input {...input} isDisabled={submitting} {...props} ref={ref} />
 
         {touched && normalizedError && (
-          <div
-            role="alert"
-            style={{
-              color: "red",
-            }}
-          >
+          <Text role="alert" color={"red.500"}>
             {normalizedError}
-          </div>
+          </Text>
         )}
 
         <style jsx>{`

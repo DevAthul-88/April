@@ -2,6 +2,12 @@ import { ErrorComponent, ErrorBoundary } from "@blitzjs/next"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import React from "react"
 import { withBlitz } from "app/blitz-client"
+import { ChakraProvider } from "@chakra-ui/react"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import AppBar from "app/components/appBar"
+import { Suspense } from "react"
+import "../app/style/style.css"
+import Loader from "app/components/Loader"
 
 function RootErrorFallback({ error }) {
   if (error instanceof AuthenticationError) {
@@ -20,11 +26,30 @@ function RootErrorFallback({ error }) {
   }
 }
 
+function RenderComponent({ Component, pageProps }) {
+  const currentUser = useCurrentUser()
+  return (
+    <>
+      {currentUser ? (
+        <AppBar>
+          <Component {...pageProps} />
+        </AppBar>
+      ) : (
+        <Component {...pageProps} />
+      )}
+    </>
+  )
+}
+
 function MyApp({ Component, pageProps }) {
   return (
-    <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <Component {...pageProps} />
-    </ErrorBoundary>
+    <ChakraProvider>
+      <ErrorBoundary FallbackComponent={RootErrorFallback}>
+        <Suspense fallback={<Loader />}>
+          <RenderComponent Component={Component} pageProps={pageProps} />
+        </Suspense>
+      </ErrorBoundary>
+    </ChakraProvider>
   )
 }
 

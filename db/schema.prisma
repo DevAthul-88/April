@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -13,20 +13,23 @@ generator client {
 // --------------------------------------
 
 model User {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   name           String?
   email          String   @unique
   hashedPassword String?
   role           String   @default("USER")
+  address        String?
+  currency       String?
+  company        String?
 
   tokens   Token[]
   sessions Session[]
 }
 
 model Session {
-  id                 Int       @id @default(autoincrement())
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
   expiresAt          DateTime?
@@ -36,12 +39,12 @@ model Session {
   publicData         String?
   privateData        String?
 
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int?
+  user   User?  @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
 }
 
 model Token {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   hashedToken String
@@ -51,8 +54,8 @@ model Token {
   expiresAt   DateTime
   sentTo      String
 
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
 
   @@unique([hashedToken, type])
 }
@@ -63,3 +66,105 @@ model Token {
 // enum TokenType {
 //   RESET_PASSWORD
 // }
+
+model Contact {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String?
+  email     String?
+  gender    String?
+  note      String?
+  userId    String?
+  client    String?
+  website   String?  @default("")
+  company   String?  @default("")
+  phone     String?  @default("")
+  address   String?  @default("")
+}
+
+model Client {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String?
+  email     String?
+  gender    String?
+  note      String?
+  userId    String?
+  country   String?
+  website   String?  @default("")
+  company   String?  @default("")
+  phone     String?  @default("")
+  address   String?  @default("")
+}
+
+model Project {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String?
+  note      String?
+  userId    String?
+  start     String?
+  status    String?
+}
+
+model Invoice {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  project   String?
+  client    String?
+  note      String?
+  userId    String?
+  issue     String?
+  due       String?
+  tax       Int?
+  discount  Int?
+  meta      Json[]   @default([])
+  currency  String?
+  status    String?  @default("DRAFT")
+}
+
+model Expense {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String?
+  name      String?
+  currency  String?
+  client    String?
+  amount    Int?
+  projectId String?
+  note      String?
+  project   String?
+  date      String?
+  paid      Boolean  @default(false)
+  should    Boolean  @default(false)
+}
+
+model Payment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String?
+  date      String?
+  method    String?
+  invoiceId String?
+  amount    Int?
+  currency  String?
+  ref       String?
+}
+
+model Mail {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String?
+  note      String?
+  userId    String?
+  client    String?
+  sender    String?
+  seen      Boolean  @default(false)
+}

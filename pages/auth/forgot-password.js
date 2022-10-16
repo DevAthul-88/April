@@ -4,9 +4,11 @@ import { Form, FORM_ERROR } from "app/core/components/Form"
 import { ForgotPassword } from "app/auth/validations"
 import forgotPassword from "app/auth/mutations/forgotPassword"
 import { useMutation } from "@blitzjs/rpc"
+import { useRedirectAuthenticated } from "@blitzjs/auth"
 
 const ForgotPasswordPage = () => {
   const [forgotPasswordMutation, { isSuccess }] = useMutation(forgotPassword)
+  useRedirectAuthenticated("/apps")
   return (
     <Layout title="Forgot Your Password?">
       <h1>Forgot your password?</h1>
