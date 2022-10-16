@@ -27,6 +27,7 @@ blitz-log.log
 .env.*.local
 .envrc
 
+
 # Logs
 logs
 *.log

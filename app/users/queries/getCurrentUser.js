@@ -14,6 +14,5 @@ export default async function getCurrentUser(_ = null, { session }) {
       role: true,
     },
   })
-  console.log(user)
   return user
 }
