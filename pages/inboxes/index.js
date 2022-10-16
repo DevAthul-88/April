@@ -43,6 +43,7 @@ const ITEMS_PER_PAGE = 10
 export const InboxesList = () => {
   const router = useRouter()
   const currentUser = useCurrentUser()
+  useAuthorize()
   const page = Number(router.query.page) || 0
   const [{ mail, hasMore }] = usePaginatedQuery(getMails, {
     orderBy: {
@@ -72,7 +73,7 @@ export const InboxesList = () => {
     // 1. Reuse the `useTab` hook
     const tabProps = useTab({ ...props, ref })
     const styles = useMultiStyleConfig("Tabs", tabProps)
-    useAuthorize()
+
     return (
       <Button __css={styles.tab} {...tabProps}>
         {tabProps.children}

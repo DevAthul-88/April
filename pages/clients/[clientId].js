@@ -254,8 +254,8 @@ export const Client = () => {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {invoices.map((invoice) => (
-                      <Tr key={invoice.id}>
+                    {invoices.map((invoice, index) => (
+                      <Tr key={index}>
                         <Td>{invoice.project}</Td>
                         <Td>{invoice.due}</Td>
                         <Td>{Status(invoice.status)}</Td>
@@ -284,8 +284,8 @@ export const Client = () => {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {contacts.map((contact) => (
-                      <Tr>
+                    {contacts.map((contact, index) => (
+                      <Tr key={index}>
                         <Td>{contact.name}</Td>
                         <Td>{contact.email}</Td>
                         <Td>{Gender(contact.gender)}</Td>
@@ -316,7 +316,7 @@ export const Client = () => {
                   </Thead>
                   <Tbody>
                     {expenses.map((expense) => (
-                      <Tr>
+                      <Tr key={expense.id}>
                         <Td>{expense.name}</Td>
                         <Td>{expense.date}</Td>
                         <Td>
