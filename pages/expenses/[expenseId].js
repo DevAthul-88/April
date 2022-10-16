@@ -9,6 +9,7 @@ import Layout from "app/core/layouts/Layout"
 import getExpense from "app/expenses/queries/getExpense"
 import deleteExpense from "app/expenses/mutations/deleteExpense"
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
+import { useAuthorize } from "@blitzjs/auth"
 import {
   Box,
   Breadcrumb,
@@ -30,6 +31,7 @@ import getSymbolFromCurrency from "currency-symbol-map"
 import { Country } from "country-state-city"
 import { ArrowRightIcon } from "@chakra-ui/icons"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import Loader from "app/components/Loader"
 
 export const Expense = () => {
   const router = useRouter()
@@ -39,6 +41,7 @@ export const Expense = () => {
   const [expense] = useQuery(getExpense, {
     id: expenseId,
   })
+  useAuthorize()
   return (
     <>
       <Head>
@@ -174,10 +177,10 @@ const ShowExpensePage = () => {
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink>View expense</BreadcrumbLink>
+          <BreadcrumbLink>View Expense</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Expense />
       </Suspense>
     </div>

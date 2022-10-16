@@ -4,14 +4,15 @@ import CurrencySelector from "app/core/components/CurrencySelector"
 import { Form } from "app/core/components/Form"
 import { LabeledTextField } from "app/core/components/LabeledTextField"
 import getProjects from "app/projects/queries/getProjects"
-import getCurrentUser from "app/users/queries/getCurrentUser"
+
 import ClientSelector from "app/core/components/ClientSelect"
 import CheckBox from "app/core/components/CheckBox"
 import ProjectIdSelector from "app/core/components/ProjectIdSelector"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 export { FORM_ERROR } from "app/core/components/Form"
 export function ExpenseForm(props) {
-  const currentUser = getCurrentUser()
+  const currentUser = useCurrentUser()
   const [{ projects }] = usePaginatedQuery(getProjects, {
     orderBy: {
       id: "asc",

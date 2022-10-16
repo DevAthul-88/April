@@ -144,18 +144,26 @@ const AppsPage = () => {
                   <FaDollarSign fontSize="1.5rem" />
                 </Flex>
                 <Heading mt="2" color="green" fontWeight="bold">
-                  +
-                  {payments.length == 1 ? (
-                    <>
-                      {payments.map((a, index) => {
-                        return <span key={index}>{a.amount}</span>
-                      })}
-                    </>
+                  {payments.length <= 0 ? (
+                    <Heading mt="2" fontSize="lg">
+                      No payments
+                    </Heading>
                   ) : (
                     <>
-                      {payments.reduce((a, b) => {
-                        return a.amount + b.amount
-                      })}
+                      +
+                      {payments.length == 1 ? (
+                        <>
+                          {payments.map((a, index) => {
+                            return <span key={index}>{a.amount}</span>
+                          })}
+                        </>
+                      ) : (
+                        <>
+                          {payments.reduce((a, b) => {
+                            return a.amount + b.amount
+                          })}
+                        </>
+                      )}
                     </>
                   )}
                 </Heading>
@@ -176,18 +184,26 @@ const AppsPage = () => {
                   <FaMoneyCheck fontSize="1.5rem" />
                 </Flex>
                 <Heading mt="2" color="red" fontWeight="bold">
-                  -
-                  {expenses.length == 1 ? (
-                    <>
-                      {expenses.map((a, index) => {
-                        return <span key={index}>{a.amount}</span>
-                      })}
-                    </>
+                  {expenses.length <= 0 ? (
+                    <Heading mt="2" fontSize="lg">
+                      No expenses
+                    </Heading>
                   ) : (
                     <>
-                      {expenses.reduce((a, b) => {
-                        return a.amount + b.amount
-                      })}
+                      -
+                      {expenses.length == 1 ? (
+                        <>
+                          {expenses.map((a, index) => {
+                            return <span key={index}>{a.amount}</span>
+                          })}
+                        </>
+                      ) : (
+                        <>
+                          {expenses.reduce((a, b) => {
+                            return a.amount + b.amount
+                          })}
+                        </>
+                      )}
                     </>
                   )}
                 </Heading>
@@ -195,35 +211,6 @@ const AppsPage = () => {
                 <Link href={Routes.ExpensesPage()}>View Expenses</Link>
               </Box>
             </Flex>
-          </Box>
-          <Box
-            border="2px"
-            mt="4"
-            borderColor={"whatsapp"}
-            flex="1"
-            rounded={"lg"}
-            boxShadow={"lg"}
-            p={8}
-          >
-            <Flex>
-              <Text textTransform={"uppercase"} color="gray.600">
-                Latest Mails
-              </Text>
-              <Spacer />
-              <FaMailBulk fontSize="1.5rem" />
-            </Flex>
-
-            {mails ? (
-              <>
-                <OrderedList mt="4">
-                  <ListItem>Lorem ipsum dolor sit amet</ListItem>
-                </OrderedList>
-              </>
-            ) : (
-              <Text mt="4" color="gray.600" textAlign="center">
-                No mails
-              </Text>
-            )}
           </Box>
         </Flex>
       </>

@@ -10,6 +10,8 @@ import getInvoice from "app/invoices/queries/getInvoice"
 import updateInvoice from "app/invoices/mutations/updateInvoice"
 import { InvoiceForm, FORM_ERROR } from "app/invoices/components/InvoiceForm"
 import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } from "@chakra-ui/react"
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 
 export const EditInvoice = () => {
   const router = useRouter()
@@ -25,6 +27,7 @@ export const EditInvoice = () => {
     }
   )
   const [updateInvoiceMutation] = useMutation(updateInvoice)
+  useAuthorize()
   return (
     <>
       <Head>
@@ -80,7 +83,7 @@ const EditInvoicePage = () => {
           <BreadcrumbLink>Edit Invoice</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <EditInvoice />
       </Suspense>
     </div>

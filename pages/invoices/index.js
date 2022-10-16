@@ -6,6 +6,7 @@ import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import Layout from "app/core/layouts/Layout"
 import getInvoices from "app/invoices/queries/getInvoices"
+
 import { FaPlus } from "react-icons/fa"
 import {
   Table,
@@ -26,7 +27,8 @@ import {
   Box,
 } from "@chakra-ui/react"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 const ITEMS_PER_PAGE = 10
 export const InvoicesList = () => {
   const router = useRouter()
@@ -82,6 +84,7 @@ export const InvoicesList = () => {
         break
     }
   }
+  useAuthorize()
   return (
     <div>
       <Flex mt="6">
@@ -107,7 +110,7 @@ export const InvoicesList = () => {
           </Thead>
           <Tbody>
             {invoices.map((invoice) => (
-              <Tr>
+              <Tr key={invoice.id}>
                 <Td>{invoice.project}</Td>
                 <Td>{invoice.due}</Td>
                 <Td>{Status(invoice.status)}</Td>
@@ -138,7 +141,7 @@ const InvoicesPage = () => {
       </Head>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <InvoicesList />
         </Suspense>
       </div>

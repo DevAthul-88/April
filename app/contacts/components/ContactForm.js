@@ -15,7 +15,6 @@ export function ContactForm(props) {
   const [{ clients }] = usePaginatedQuery(getClients, {
     orderBy: {
       id: "asc",
-      userId: currentUser.id,
     },
     where: {
       userId: currentUser.id,

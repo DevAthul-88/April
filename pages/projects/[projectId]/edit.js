@@ -9,7 +9,9 @@ import Layout from "app/core/layouts/Layout"
 import getProject from "app/projects/queries/getProject"
 import updateProject from "app/projects/mutations/updateProject"
 import { ProjectForm, FORM_ERROR } from "app/projects/components/ProjectForm"
+import { useAuthorize } from "@blitzjs/auth"
 import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } from "@chakra-ui/react"
+import Loader from "app/components/Loader"
 export const EditProject = () => {
   const router = useRouter()
   const projectId = useParam("projectId")
@@ -24,6 +26,7 @@ export const EditProject = () => {
     }
   )
   const [updateProjectMutation] = useMutation(updateProject)
+  useAuthorize()
   return (
     <>
       <Head>
@@ -79,7 +82,7 @@ const EditProjectPage = () => {
           <BreadcrumbLink>Edit Project</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <EditProject />
       </Suspense>
     </div>

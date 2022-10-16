@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, useCallback } from "react"
 import { Routes } from "@blitzjs/next"
 import Head from "next/head"
 import Link from "next/link"
@@ -24,12 +24,15 @@ import {
 import getClient from "app/clients/queries/getClient"
 import Pdf from "app/components/Pdf"
 import markIn from "app/invoices/mutations/markIn"
-
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 export const Invoice = () => {
   const router = useRouter()
   const invoiceId = useParam("invoiceId")
   const [deleteInvoiceMutation] = useMutation(deleteInvoice)
   const [markInvoiceMutation] = useMutation(markIn)
+
   const [invoice] = useQuery(getInvoice, {
     id: invoiceId,
   })
@@ -138,11 +141,11 @@ const ShowInvoicePage = () => {
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink>View invoice</BreadcrumbLink>
+          <BreadcrumbLink>View Invoice</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Invoice />
       </Suspense>
     </div>

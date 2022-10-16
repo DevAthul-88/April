@@ -8,6 +8,7 @@ import Layout from "app/core/layouts/Layout"
 import getMails from "app/mail/queries/getMails"
 import { FaPlus } from "react-icons/fa"
 import * as timeago from "timeago.js"
+
 import {
   Table,
   Thead,
@@ -27,7 +28,8 @@ import {
   Box,
 } from "@chakra-ui/react"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 const ITEMS_PER_PAGE = 10
 export const MailList = () => {
   const router = useRouter()
@@ -57,7 +59,7 @@ export const MailList = () => {
         page: page + 1,
       },
     })
-
+  useAuthorize()
   return (
     <div>
       <Flex mt="6">
@@ -84,7 +86,7 @@ export const MailList = () => {
           </Thead>
           <Tbody>
             {mail.map((m) => (
-              <Tr>
+              <Tr key={m.id}>
                 <Td>{m.name}</Td>
                 <Td>{timeago.format(m.createdAt)}</Td>
                 <Td>
@@ -126,7 +128,7 @@ const MailPage = () => {
       </Head>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <MailList />
         </Suspense>
       </div>

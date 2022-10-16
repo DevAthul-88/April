@@ -8,12 +8,13 @@ import createPayment from "app/payments/mutations/createPayment"
 import { PaymentForm, FORM_ERROR } from "app/payments/components/PaymentForm"
 import { Payment } from "app/auth/validations"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
 const NewPaymentPage = () => {
   const router = useRouter()
   const currentUser = useCurrentUser()
 
   const [createPaymentMutation] = useMutation(createPayment)
+  useAuthorize()
   return (
     <Layout title={"Create New Payment"}>
       <Breadcrumb mb="8">
@@ -48,11 +49,7 @@ const NewPaymentPage = () => {
           onSubmit={async (values) => {
             try {
               const payment = await createPaymentMutation(values)
-              router.push(
-                Routes.ShowPaymentPage({
-                  paymentId: payment.id,
-                })
-              )
+              router.push(Routes.PaymentsPage())
             } catch (error) {
               console.error(error)
               return {

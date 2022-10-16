@@ -8,13 +8,14 @@ import { ClientForm, FORM_ERROR } from "app/clients/components/ClientForm"
 import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } from "@chakra-ui/react"
 import { Client } from "app/auth/validations"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
 const NewClientPage = () => {
   const router = useRouter()
   const currentUser = useCurrentUser()
+  useAuthorize()
   const [createClientMutation] = useMutation(createClient)
   return (
-    <Layout title={"April | Create New Client"}>
+    <Layout title={"April | New Client"}>
       <Breadcrumb mb="8">
         <BreadcrumbItem>
           <Link href={Routes.ClientsPage()}>
@@ -24,7 +25,7 @@ const NewClientPage = () => {
 
         <BreadcrumbItem isCurrentPage>
           <Link href={Routes.NewClientPage()}>
-            <BreadcrumbLink>New Clients</BreadcrumbLink>
+            <BreadcrumbLink>New Client</BreadcrumbLink>
           </Link>
         </BreadcrumbItem>
       </Breadcrumb>

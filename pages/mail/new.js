@@ -9,13 +9,14 @@ import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } fro
 import { Suspense } from "react"
 import { Mail } from "app/auth/validations"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
 const NewMailPage = () => {
   const router = useRouter()
   const currentUser = useCurrentUser()
   const [createMailMutation] = useMutation(createMail)
+  useAuthorize()
   return (
-    <Layout title={"Create New Mail"}>
+    <Layout title={"April | New Mail"}>
       <Breadcrumb mb="8">
         <BreadcrumbItem>
           <Link href={Routes.MailPage()}>
@@ -47,7 +48,7 @@ const NewMailPage = () => {
               try {
                 const mail = await createMailMutation(values)
                 router.push(
-                  Routes.ShowMailPage({
+                  Routes.MailPage({
                     mailId: mail.id,
                   })
                 )

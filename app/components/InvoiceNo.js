@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   invoiceNoContainer: {
     flexDirection: "row",
     marginTop: 36,
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
   },
   invoiceDateContainer: {
     flexDirection: "row",

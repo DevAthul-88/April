@@ -8,11 +8,12 @@ import { ExpenseForm, FORM_ERROR } from "app/expenses/components/ExpenseForm"
 import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } from "@chakra-ui/react"
 import { Expense } from "app/auth/validations"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
 const NewExpensePage = () => {
   const router = useRouter()
   const [createExpenseMutation] = useMutation(createExpense)
   const currentUser = useCurrentUser()
+  useAuthorize()
   return (
     <Layout title={"April | Create New Expense"}>
       <Breadcrumb mb="8">

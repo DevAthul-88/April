@@ -7,6 +7,7 @@ import { useRouter } from "next/router"
 import Layout from "app/core/layouts/Layout"
 import getExpenses from "app/expenses/queries/getExpenses"
 import { FaPlus } from "react-icons/fa"
+
 import {
   Table,
   Thead,
@@ -28,7 +29,8 @@ import {
 import getSymbolFromCurrency from "currency-symbol-map"
 import { Country } from "country-state-city"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 const ITEMS_PER_PAGE = 10
 export const ExpensesList = () => {
   const router = useRouter()
@@ -58,7 +60,7 @@ export const ExpensesList = () => {
         page: page + 1,
       },
     })
-
+  useAuthorize()
   return (
     <div>
       <Flex mt="6">
@@ -85,7 +87,7 @@ export const ExpensesList = () => {
           </Thead>
           <Tbody>
             {expenses.map((expense) => (
-              <Tr>
+              <Tr key={expense.id}>
                 <Td>{expense.name}</Td>
                 <Td>{expense.date}</Td>
                 <Td color={"red"}>
@@ -119,7 +121,7 @@ const ExpensesPage = () => {
       </Head>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <ExpensesList />
         </Suspense>
       </div>

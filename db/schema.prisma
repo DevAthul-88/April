@@ -21,7 +21,6 @@ model User {
   hashedPassword String?
   role           String   @default("USER")
   address        String?
-  currency       String?
   company        String?
 
   tokens   Token[]

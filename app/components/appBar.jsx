@@ -160,9 +160,6 @@ export default function AppBar({ children }) {
         >
           Inbox
         </NavItem>
-        <NavItem icon={FaWrench} href={Routes.ClientsPage()}>
-          Settings
-        </NavItem>
       </Flex>
     </Box>
   )
@@ -209,6 +206,7 @@ export default function AppBar({ children }) {
                   <MenuItem
                     onClick={async () => {
                       await logoutMutation()
+                      router.push("/auth/login")
                     }}
                   >
                     Logout

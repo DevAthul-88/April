@@ -51,7 +51,7 @@ const UserInfo = () => {
 const Home = () => {
   useRedirectAuthenticated("/apps")
   return (
-    <Layout title="Home">
+    <Layout title="April | Home">
       <AppHeader />
       <AppHero />
     </Layout>

@@ -8,11 +8,12 @@ import { InvoiceForm, FORM_ERROR } from "app/invoices/components/InvoiceForm"
 import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } from "@chakra-ui/react"
 import { Invoice } from "app/auth/validations"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
 const NewInvoicePage = () => {
   const router = useRouter()
   const currentUser = useCurrentUser()
   const [createInvoiceMutation] = useMutation(createInvoice)
+  useAuthorize()
   return (
     <Layout title={"April | Create New Invoice"}>
       <Breadcrumb mb="8">

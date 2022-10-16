@@ -27,6 +27,8 @@ import {
 import * as timeago from "timeago.js"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import markMail from "app/inboxes/mutations/mark"
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 
 export const Mail = () => {
   const router = useRouter()
@@ -36,6 +38,7 @@ export const Mail = () => {
     id: mailId,
   })
   const currentUser = useCurrentUser()
+  useAuthorize()
   return (
     <>
       <Head>
@@ -70,7 +73,6 @@ export const Mail = () => {
         <Tabs mt="5" mb="5" colorScheme={"whatsapp"}>
           <TabList>
             <Tab>Details</Tab>
-            <Tab>Activity</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -117,21 +119,6 @@ export const Mail = () => {
                 </Flex>
               </Flex>
             </TabPanel>
-            <TabPanel>
-              <Code colorScheme={"whatsapp"}>
-                <Text>
-                  {currentUser.email} created mail {mail.name}
-                </Text>
-                <span>{JSON.stringify(mail.createdAt)}</span>
-              </Code>
-              <Divider mt="5" mb="5" />
-              <Code colorScheme={"whatsapp"}>
-                <Text>
-                  {currentUser.email} updated mail {mail.name} at
-                </Text>
-                <span>{JSON.stringify(mail.updatedAt)}</span>
-              </Code>
-            </TabPanel>
           </TabPanels>
         </Tabs>
       </Box>
@@ -154,7 +141,7 @@ const ShowMailPage = () => {
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Mail />
       </Suspense>
     </div>

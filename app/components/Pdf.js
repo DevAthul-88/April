@@ -1,5 +1,5 @@
 import React from "react"
-import { Page, Document, StyleSheet } from "@react-pdf/renderer"
+import { Page, Document, StyleSheet, View } from "@react-pdf/renderer"
 import logo from "../../pages/logo.svg"
 import InvoiceTitle from "./InvoiceTitle"
 import InvoiceNo from "./InvoiceNo"
@@ -27,13 +27,15 @@ const styles = StyleSheet.create({
   },
 })
 
-const Pdf = ({ invoicedata, client }) => {
+const Pdf = ({ invoicedata, client, currentUser }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <InvoiceTitle title={"Invoice"} />
         <InvoiceNo invoice={invoicedata} />
+
         <BillTo invoice={client} />
+
         <InvoiceItemsTable invoice={invoicedata.meta} country={invoicedata.currency} />
         <InvoiceThankYouMsg />
       </Page>

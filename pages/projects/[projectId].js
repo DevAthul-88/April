@@ -38,7 +38,8 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import getSymbolFromCurrency from "currency-symbol-map"
 import { Country } from "country-state-city"
 import getExpenses from "app/expenses/queries/getExpenses"
-
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 export const Project = () => {
   const router = useRouter()
   const projectId = useParam("projectId")
@@ -55,6 +56,7 @@ export const Project = () => {
       project: projectId,
     },
   })
+  useAuthorize()
   return (
     <>
       <Head>
@@ -104,7 +106,10 @@ export const Project = () => {
               <UnorderedList mb="5" spacing="2" size="2xl">
                 <ListItem fontSize="lg">Name: {project.name}</ListItem>
                 <ListItem fontSize="lg">
-                  About {project.name}: {project.note}
+                  About:{" "}
+                  <Text fontWeight={"bold"} as="span" fontStyle="italic">
+                    {project.note}
+                  </Text>
                 </ListItem>
                 <ListItem fontSize="lg">Starting date: {project.start}</ListItem>
                 <ListItem fontSize="lg">Status: {project.status}</ListItem>
@@ -139,7 +144,7 @@ export const Project = () => {
                   </Thead>
                   <Tbody>
                     {expenses.map((expense) => (
-                      <Tr>
+                      <Tr key={expense.id}>
                         <Td>{expense.name}</Td>
                         <Td>{expense.date}</Td>
                         <Td>
@@ -178,11 +183,11 @@ const ShowProjectPage = () => {
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink>View project</BreadcrumbLink>
+          <BreadcrumbLink>View Project</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Project />
       </Suspense>
     </div>

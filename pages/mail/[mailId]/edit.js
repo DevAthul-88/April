@@ -1,17 +1,20 @@
-import { Suspense } from "react";
-import { Routes } from "@blitzjs/next";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useQuery, useMutation } from "@blitzjs/rpc";
-import { useParam } from "@blitzjs/next";
-import Layout from "app/core/layouts/Layout";
-import getMail from "app/mail/queries/getMail";
-import updateMail from "app/mail/mutations/updateMail";
-import { MailForm, FORM_ERROR } from "app/mail/components/MailForm";
+import { Suspense } from "react"
+import { Routes } from "@blitzjs/next"
+import Head from "next/head"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useQuery, useMutation } from "@blitzjs/rpc"
+import { useParam } from "@blitzjs/next"
+import Layout from "app/core/layouts/Layout"
+import getMail from "app/mail/queries/getMail"
+import updateMail from "app/mail/mutations/updateMail"
+import { MailForm, FORM_ERROR } from "app/mail/components/MailForm"
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
+
 export const EditMail = () => {
-  const router = useRouter();
-  const mailId = useParam("mailId", "number");
+  const router = useRouter()
+  const mailId = useParam("mailId", "number")
   const [mail, { setQueryData }] = useQuery(
     getMail,
     {
@@ -21,12 +24,13 @@ export const EditMail = () => {
       // This ensures the query never refreshes and overwrites the form data while the user is editing.
       staleTime: Infinity,
     }
-  );
-  const [updateMailMutation] = useMutation(updateMail);
+  )
+  const [updateMailMutation] = useMutation(updateMail)
+  useAuthorize()
   return (
     <>
       <Head>
-        <title>Edit Mail {mail.id}</title>
+        <title>April | Mail</title>
       </Head>
 
       <div>
@@ -44,30 +48,30 @@ export const EditMail = () => {
               const updated = await updateMailMutation({
                 id: mail.id,
                 ...values,
-              });
-              await setQueryData(updated);
+              })
+              await setQueryData(updated)
               router.push(
                 Routes.ShowMailPage({
                   mailId: updated.id,
                 })
-              );
+              )
             } catch (error) {
-              console.error(error);
+              console.error(error)
               return {
                 [FORM_ERROR]: error.toString(),
-              };
+              }
             }
           }}
         />
       </div>
     </>
-  );
-};
+  )
+}
 
 const EditMailPage = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <EditMail />
       </Suspense>
 
@@ -77,11 +81,11 @@ const EditMailPage = () => {
         </Link>
       </p>
     </div>
-  );
-};
+  )
+}
 
-EditMailPage.authenticate = true;
+EditMailPage.authenticate = true
 
-EditMailPage.getLayout = (page) => <Layout>{page}</Layout>;
+EditMailPage.getLayout = (page) => <Layout>{page}</Layout>
 
-export default EditMailPage;
+export default EditMailPage

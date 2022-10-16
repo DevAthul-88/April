@@ -26,8 +26,10 @@ import {
   Box,
 } from "@chakra-ui/react"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 const ITEMS_PER_PAGE = 10
+
 export const ProjectsList = () => {
   const router = useRouter()
   const currentUser = useCurrentUser()
@@ -77,6 +79,7 @@ export const ProjectsList = () => {
         break
     }
   }
+  useAuthorize()
   return (
     <div>
       <Flex mt="6">
@@ -103,7 +106,7 @@ export const ProjectsList = () => {
           </Thead>
           <Tbody>
             {projects.map((project) => (
-              <Tr>
+              <Tr key={project.id}>
                 <Td>{project.name}</Td>
                 <Td>{project.start}</Td>
                 <Td>{Status(project.status)}</Td>
@@ -133,7 +136,7 @@ const ProjectsPage = () => {
       </Head>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <ProjectsList />
         </Suspense>
       </div>

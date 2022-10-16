@@ -27,13 +27,20 @@ import {
 } from "@chakra-ui/react"
 import getSymbolFromCurrency from "currency-symbol-map"
 import { Country } from "country-state-city"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 const ITEMS_PER_PAGE = 10
 export const PaymentsList = () => {
   const router = useRouter()
+  const currentUser = useCurrentUser()
   const page = Number(router.query.page) || 0
   const [{ payments, hasMore }] = usePaginatedQuery(getPayments, {
     orderBy: {
       id: "asc",
+    },
+    where: {
+      userId: currentUser.id,
     },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
@@ -52,7 +59,7 @@ export const PaymentsList = () => {
         page: page + 1,
       },
     })
-
+  useAuthorize()
   return (
     <div>
       <Flex mt="6">
@@ -73,7 +80,7 @@ export const PaymentsList = () => {
           </Thead>
           <Tbody>
             {payments.map((m) => (
-              <Tr>
+              <Tr key={m.id}>
                 <Td>{m.date}</Td>
                 <Td>{m.method}</Td>
                 <Td color={"whatsapp"}>
@@ -112,7 +119,7 @@ const PaymentsPage = () => {
       </Head>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <PaymentsList />
         </Suspense>
       </div>

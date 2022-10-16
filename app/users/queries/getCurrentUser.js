@@ -9,8 +9,11 @@ export default async function getCurrentUser(_ = null, { session }) {
       id: true,
       name: true,
       email: true,
+      address: true,
+      company: true,
       role: true,
     },
   })
+  console.log(user)
   return user
 }

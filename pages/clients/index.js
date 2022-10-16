@@ -6,6 +6,7 @@ import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import Layout from "app/core/layouts/Layout"
 import getClients from "app/clients/queries/getClients"
+import { useAuthorize } from "@blitzjs/auth"
 import {
   Table,
   Thead,
@@ -33,6 +34,7 @@ const ITEMS_PER_PAGE = 10
 export const ClientsList = () => {
   const router = useRouter()
   const currentUser = useCurrentUser()
+  useAuthorize()
   const page = Number(router.query.page) || 0
   const [{ clients, hasMore }] = usePaginatedQuery(getClients, {
     where: {
@@ -112,7 +114,7 @@ export const ClientsList = () => {
           </Thead>
           <Tbody>
             {clients.map((client) => (
-              <Tr>
+              <Tr key={client.id}>
                 <Td>{client.name}</Td>
                 <Td>{client.email}</Td>
                 <Td>{Gender(client.gender)}</Td>

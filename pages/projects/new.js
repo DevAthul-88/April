@@ -8,28 +8,29 @@ import { ProjectForm, FORM_ERROR } from "app/projects/components/ProjectForm"
 import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } from "@chakra-ui/react"
 import { Project } from "app/auth/validations"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
 const NewProjectPage = () => {
   const router = useRouter()
   const [createProjectMutation] = useMutation(createProject)
   const currentUser = useCurrentUser()
+  useAuthorize()
   return (
     <Layout title={"April | Create New Project"}>
       <Breadcrumb mb="8">
         <BreadcrumbItem>
-          <Link href={Routes.ContactsPage()}>
-            <BreadcrumbLink>Contacts</BreadcrumbLink>
+          <Link href={Routes.ProjectsPage()}>
+            <BreadcrumbLink>Project</BreadcrumbLink>
           </Link>
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <Link href={Routes.NewContactPage()}>
-            <BreadcrumbLink>New Contact</BreadcrumbLink>
+          <Link href={Routes.NewProjectPage()}>
+            <BreadcrumbLink>New Project</BreadcrumbLink>
           </Link>
         </BreadcrumbItem>
       </Breadcrumb>
       <Box rounded={"lg"} boxShadow={"lg"} p={8}>
-        <Heading fontSize={"2xl"}>New Contact</Heading>
+        <Heading fontSize={"2xl"}>New Project</Heading>
         <Divider mt="5" mb="5" />
         <ProjectForm
           submitText="Create Project"

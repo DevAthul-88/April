@@ -9,6 +9,7 @@ import Layout from "app/core/layouts/Layout"
 import getClient from "app/clients/queries/getClient"
 import deleteClient from "app/clients/mutations/deleteClient"
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
+import { useAuthorize } from "@blitzjs/auth"
 import {
   Box,
   Breadcrumb,
@@ -42,10 +43,12 @@ import getInvoices from "app/invoices/queries/getInvoices"
 import getContacts from "app/contacts/queries/getContacts"
 import getExpenses from "app/expenses/queries/getExpenses"
 import getSymbolFromCurrency from "currency-symbol-map"
+import Loader from "app/components/Loader"
 
 export const Client = () => {
   const router = useRouter()
   const currentUser = useCurrentUser()
+  useAuthorize()
   const clientId = useParam("clientId")
   const [deleteClientMutation] = useMutation(deleteClient)
   const [client] = useQuery(getClient, {
@@ -193,7 +196,9 @@ export const Client = () => {
                     {client.note}
                   </Text>
                 </ListItem>
-                <ListItem fontSize="lg">Gender: {client.gender}</ListItem>
+                <ListItem fontSize="lg" textTransform={"capitalize"}>
+                  Gender: {client.gender}
+                </ListItem>
                 <ListItem fontSize="lg">
                   Country: {Country.getCountryByCode(client.country).name}{" "}
                   {Country.getCountryByCode(client.country).flag}
@@ -250,7 +255,7 @@ export const Client = () => {
                   </Thead>
                   <Tbody>
                     {invoices.map((invoice) => (
-                      <Tr>
+                      <Tr key={invoice.id}>
                         <Td>{invoice.project}</Td>
                         <Td>{invoice.due}</Td>
                         <Td>{Status(invoice.status)}</Td>
@@ -350,11 +355,11 @@ const ShowClientPage = () => {
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink>View client</BreadcrumbLink>
+          <BreadcrumbLink>View Client</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Client />
       </Suspense>
     </div>

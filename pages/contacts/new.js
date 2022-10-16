@@ -8,11 +8,13 @@ import { ContactForm, FORM_ERROR } from "app/contacts/components/ContactForm"
 import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } from "@chakra-ui/react"
 import { Contact } from "app/auth/validations"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
+import { useAuthorize } from "@blitzjs/auth"
 const NewContactPage = () => {
   const router = useRouter()
-  const currentUser = useCurrentUser()
+
   const [createContactMutation] = useMutation(createContact)
+  const currentUser = useCurrentUser()
+  useAuthorize()
   return (
     <Layout title={"April | Create New Contact"}>
       <Breadcrumb mb="8">

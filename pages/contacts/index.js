@@ -26,11 +26,14 @@ import {
 } from "@chakra-ui/react"
 import { FaPlus } from "react-icons/fa"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 
 const ITEMS_PER_PAGE = 10
 export const ContactsList = () => {
   const router = useRouter()
   const currentUser = useCurrentUser()
+  useAuthorize()
   const page = Number(router.query.page) || 0
   const [{ contacts, hasMore }] = usePaginatedQuery(getContacts, {
     orderBy: {
@@ -109,7 +112,7 @@ export const ContactsList = () => {
           </Thead>
           <Tbody>
             {contacts.map((contact) => (
-              <Tr>
+              <Tr key={contact.id}>
                 <Td>{contact.name}</Td>
                 <Td>{contact.email}</Td>
                 <Td>{Gender(contact.gender)}</Td>
@@ -140,7 +143,7 @@ const ContactsPage = () => {
       </Head>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <ContactsList />
         </Suspense>
       </div>

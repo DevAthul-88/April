@@ -26,6 +26,8 @@ import {
   Spacer,
 } from "@chakra-ui/react"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 
 export const Contact = () => {
   const router = useRouter()
@@ -35,6 +37,7 @@ export const Contact = () => {
   const [contact] = useQuery(getContact, {
     id: contactId,
   })
+  useAuthorize()
   return (
     <>
       <Head>
@@ -149,7 +152,7 @@ const ShowContactPage = () => {
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Contact />
       </Suspense>
     </div>

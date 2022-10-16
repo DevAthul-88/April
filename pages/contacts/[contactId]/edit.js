@@ -11,6 +11,9 @@ import updateContact from "app/contacts/mutations/updateContact"
 import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } from "@chakra-ui/react"
 import { ContactForm, FORM_ERROR } from "app/contacts/components/ContactForm"
 import { Contact } from "app/auth/validations"
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
+
 export const EditContact = () => {
   const router = useRouter()
   const contactId = useParam("contactId")
@@ -24,6 +27,7 @@ export const EditContact = () => {
     }
   )
   const [updateContactMutation] = useMutation(updateContact)
+  useAuthorize()
   return (
     <>
       <Head>
@@ -78,7 +82,7 @@ const EditContactPage = () => {
           <BreadcrumbLink>Edit Contact</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <EditContact />
       </Suspense>
     </div>

@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react"
 import getMails from "app/mail/queries/getMails"
 import * as timeago from "timeago.js"
+import { useAuthorize } from "@blitzjs/auth"
 import {
   Table,
   Thead,
@@ -34,7 +35,9 @@ import {
   Spacer,
   Box,
 } from "@chakra-ui/react"
+
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import Loader from "app/components/Loader"
 
 const ITEMS_PER_PAGE = 10
 export const InboxesList = () => {
@@ -69,7 +72,7 @@ export const InboxesList = () => {
     // 1. Reuse the `useTab` hook
     const tabProps = useTab({ ...props, ref })
     const styles = useMultiStyleConfig("Tabs", tabProps)
-
+    useAuthorize()
     return (
       <Button __css={styles.tab} {...tabProps}>
         {tabProps.children}
@@ -106,7 +109,7 @@ export const InboxesList = () => {
                 </Thead>
                 <Tbody>
                   {mail.map((m) => (
-                    <Tr>
+                    <Tr key={m.id}>
                       <Td>{m.name}</Td>
                       <Td>{timeago.format(m.createdAt)}</Td>
                       <Td>
@@ -152,7 +155,7 @@ const InboxesPage = () => {
       </Head>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <InboxesList />
         </Suspense>
       </div>

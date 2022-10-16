@@ -27,6 +27,9 @@ import {
 } from "@chakra-ui/react"
 import * as timeago from "timeago.js"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
+
 export const Mail = () => {
   const router = useRouter()
   const mailId = useParam("mailId")
@@ -35,6 +38,7 @@ export const Mail = () => {
     id: mailId,
   })
   const currentUser = useCurrentUser()
+  useAuthorize()
   return (
     <>
       <Head>
@@ -161,7 +165,7 @@ const ShowMailPage = () => {
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Mail />
       </Suspense>
     </div>

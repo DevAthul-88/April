@@ -9,7 +9,7 @@ const SignupPage = () => {
   const router = useRouter()
   useRedirectAuthenticated("/apps")
   return (
-    <Layout title="Sign Up">
+    <Layout title="April | Sign Up">
       <AppHeader />
       <SignupForm onSuccess={() => router.push(Routes.AppsPage())} />
     </Layout>

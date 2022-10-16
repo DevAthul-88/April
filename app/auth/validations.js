@@ -14,7 +14,6 @@ export const Signup = z.object({
   email,
   password,
   name,
-  currency: z.string(),
   address: z.string(),
   company: z.string(),
 })

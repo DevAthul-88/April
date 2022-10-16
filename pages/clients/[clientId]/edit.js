@@ -11,7 +11,8 @@ import updateClient from "app/clients/mutations/updateClient"
 import { ClientForm, FORM_ERROR } from "app/clients/components/ClientForm"
 import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } from "@chakra-ui/react"
 import { Client } from "app/auth/validations"
-
+import { useAuthorize } from "@blitzjs/auth"
+import Loader from "app/components/Loader"
 export const EditClient = () => {
   const router = useRouter()
   const clientId = useParam("clientId")
@@ -26,6 +27,7 @@ export const EditClient = () => {
     }
   )
   const [updateClientMutation] = useMutation(updateClient)
+  useAuthorize()
   return (
     <>
       <Head>
@@ -81,7 +83,7 @@ const EditClientPage = () => {
           <BreadcrumbLink>Edit Client</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <EditClient />
       </Suspense>
     </div>

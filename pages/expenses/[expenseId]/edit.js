@@ -9,7 +9,10 @@ import Layout from "app/core/layouts/Layout"
 import getExpense from "app/expenses/queries/getExpense"
 import updateExpense from "app/expenses/mutations/updateExpense"
 import { ExpenseForm, FORM_ERROR } from "app/expenses/components/ExpenseForm"
+import { useAuthorize } from "@blitzjs/auth"
+
 import { Box, Breadcrumb, BreadcrumbItem, Divider, BreadcrumbLink, Heading } from "@chakra-ui/react"
+import Loader from "app/components/Loader"
 export const EditExpense = () => {
   const router = useRouter()
   const expenseId = useParam("expenseId")
@@ -24,6 +27,7 @@ export const EditExpense = () => {
     }
   )
   const [updateExpenseMutation] = useMutation(updateExpense)
+  useAuthorize()
   return (
     <>
       <Head>
@@ -79,7 +83,7 @@ const EditExpensePage = () => {
           <BreadcrumbLink>Edit Expense</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <EditExpense />
       </Suspense>
     </div>

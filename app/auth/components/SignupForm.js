@@ -17,7 +17,7 @@ export const SignupForm = (props) => {
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Sign up to your account</Heading>
+          <Heading fontSize={"4xl"}>Create a new account</Heading>
         </Stack>
         <Box rounded={"lg"} bg={useColorModeValue("white", "gray.700")} boxShadow={"lg"} p={8}>
           <Form
@@ -46,38 +46,12 @@ export const SignupForm = (props) => {
             }}
           >
             <Stack spacing={4}>
-              <LabeledTextField
-                focusBorderColor="#689fc9"
-                name="name"
-                label="Username"
-                placeholder="Username"
-              />
-              <LabeledTextField
-                focusBorderColor="#689fc9"
-                name="email"
-                label="Email"
-                placeholder="Email"
-              />
-              <LabeledTextField
-                focusBorderColor="#689fc9"
-                name="address"
-                label="Address"
-                placeholder="Address"
-              />
-              <LabeledTextField
-                focusBorderColor="#689fc9"
-                name="company"
-                label="Company name"
-                placeholder="Company name"
-              />
+              <LabeledTextField name="name" label="Username" placeholder="Username" />
+              <LabeledTextField name="email" label="Email" placeholder="Email" />
+              <LabeledTextField name="address" label="Address" placeholder="Address" />
+              <LabeledTextField name="company" label="Company name" placeholder="Company name" />
             </Stack>
-            <CurrencySelector
-              name="currency"
-              label="Select currency"
-              placeholder="Select currency"
-            />
             <LabeledTextField
-              focusBorderColor="#689fc9"
               name="password"
               label="Password"
               placeholder="Password"
