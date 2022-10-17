@@ -26,27 +26,28 @@ function RootErrorFallback({ error }) {
   }
 }
 
-function RenderComponent({ Component, pageProps }) {
-  const currentUser = useCurrentUser()
-  return (
-    <>
-      {currentUser ? (
-        <AppBar>
-          <Component {...pageProps} />
-        </AppBar>
-      ) : (
-        <Component {...pageProps} />
-      )}
-    </>
-  )
-}
+// function RenderComponent({ Component, pageProps }) {
+//   const currentUser = useCurrentUser()
+//   return (
+//     <>
+//       {currentUser ? (
+//         <AppBar>
+//           <Component {...pageProps} />
+//         </AppBar>
+//       ) : (
+//         <Component {...pageProps} />
+//       )}
+//     </>
+//   )
+// }
 
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider>
       <ErrorBoundary FallbackComponent={RootErrorFallback}>
         <Suspense fallback={<Loader />}>
-          <RenderComponent Component={Component} pageProps={pageProps} />
+          {/* <RenderComponent Component={Component} pageProps={pageProps} /> */}
+          <Component {...pageProps} />
         </Suspense>
       </ErrorBoundary>
     </ChakraProvider>
