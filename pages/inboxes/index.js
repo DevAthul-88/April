@@ -1,3 +1,5 @@
+// eslint-disable-next-line react/display-name
+
 import { Suspense, forwardRef } from "react"
 import { Routes } from "@blitzjs/next"
 import Head from "next/head"
