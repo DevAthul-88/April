@@ -3,7 +3,7 @@ import { AuthenticationError, AuthorizationError } from "blitz"
 import React from "react"
 import { withBlitz } from "app/blitz-client"
 import { ChakraProvider } from "@chakra-ui/react"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+// import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import AppBar from "app/components/appBar"
 import { Suspense } from "react"
 import "../app/style/style.css"
@@ -27,10 +27,9 @@ function RootErrorFallback({ error }) {
 }
 
 function RenderComponent({ Component, pageProps }) {
-  const currentUser = useCurrentUser()
   return (
     <>
-      {currentUser ? (
+      {true ? (
         <AppBar>
           <Component {...pageProps} />
         </AppBar>
@@ -44,9 +43,11 @@ function RenderComponent({ Component, pageProps }) {
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider>
-      <Suspense fallback={<Loader />}>
-        <RenderComponent Component={Component} pageProps={pageProps} />
-      </Suspense>
+      <ErrorBoundary FallbackComponent={RootErrorFallback}>
+        <Suspense fallback={<Loader />}>
+          <RenderComponent Component={Component} pageProps={pageProps} />
+        </Suspense>
+      </ErrorBoundary>
     </ChakraProvider>
   )
 }
