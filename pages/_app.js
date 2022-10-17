@@ -20,7 +20,9 @@ function RootErrorFallback({ error }) {
       />
     )
   } else {
-    return
+    return (
+      <ErrorComponent statusCode={error?.statusCode || 400} title={error.message || error.name} />
+    )
   }
 }
 
@@ -42,11 +44,9 @@ function RenderComponent({ Component, pageProps }) {
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider>
-      <ErrorBoundary FallbackComponent={RootErrorFallback}>
-        <Suspense fallback={<Loader />}>
-          <RenderComponent Component={Component} pageProps={pageProps} />
-        </Suspense>
-      </ErrorBoundary>
+      <Suspense fallback={<Loader />}>
+        <RenderComponent Component={Component} pageProps={pageProps} />
+      </Suspense>
     </ChakraProvider>
   )
 }
