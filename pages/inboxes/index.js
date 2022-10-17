@@ -83,7 +83,7 @@ export const InboxesList = () => {
       </Button>
     )
   })
-
+  CustomTab1.displayName = "Custom tab"
   return (
     <div>
       <Flex mt="6">
